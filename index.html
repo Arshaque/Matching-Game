@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Matching Game</title>
+    <meta http-equiv="refresh">
+    <style>
+      div {
+        position:absolute;
+      }
+      img {
+        position:absolute;
+      }
+      #leftside {
+        width: 47%;
+           border: 1px solid black;
+           height: 80%;
+          position: fixed;
+      }
+      #rightside {
+		width: 47%;
+           left: 49%;
+        border: 1px solid black;
+          position:fixed;
+      }
+    </style>
+  </head>
+  <body onload="startgame()">
+    <h1 sty>Matching Game</h1>
+    <p>Click on the extra smiling face on the left.</p>
+    <div>
+      <div id="leftside" ></div>
+      <div id="rightside"></div>
+    </div>
+  </body>
+  <script type="text/javascript">
+    var numberOfFaces = 5;
+      var score = 0;
+    var theBody = document.getElementsByTagName("body")[0];
+    var TheLeftSide = document.getElementById("leftside");
+    var random_number = 0;
+    var TheRightSide = document.getElementById ("rightside");
+    function generaterandomnr () {
+      random_number = Math.random () * 400;
+      random_number_px = random_number + "px";
+      return random_number_px;
+    }
+    function generatefaces() {
+      for (i=0; i < numberOfFaces; i++) {
+        var faceimage = document.createElement("img");
+           
+        faceimage.src = "smiley.png";
+        TheLeftSide.appendChild (faceimage);
+        TheLeftSide.lastChild.style.left = generaterandomnr () ;
+        TheLeftSide.lastChild.style.top = generaterandomnr () ;
+      }
+      var leftsideimage = document.getElementById("leftside").cloneNode (true);
+      document.getElementById("rightside").appendChild (leftsideimage);
+      leftsideimage.removeChild (leftsideimage.lastChild);
+    }
+      function removeimages(){
+          while (TheLeftSide.firstChild)
+          TheLeftSide.removeChild(TheLeftSide.firstChild);
+          while (TheRightSide.firstChild)
+            TheRightSide.removeChild(TheRightSide.firstChild);
+      }
+      function startgame(){
+        alert("you have only 10 secongs each level");
+           setTimeout(function(){alert("Time out");removeimages();
+          alert("Your score: "+score);
+          alert("Refreshing the game!");
+          reset();},10000);
+    start_game();
+    
+      }
+    function start_game () {
+    generatefaces ();
+      TheLeftSide.lastChild.onclick = function corretanswer(event) {
+        event.stopPropagation();
+          score+=5;
+        numberOfFaces += 2;
+       removeimages();
+         start_game();
+      }
+      theBody.onclick = function gameover() {
+      alert ("Game Over!");
+          alert("Your score: "+score);
+           alert("Refreshing the game!");
+      while (TheLeftSide.firstChild)
+      	  TheLeftSide.removeChild(TheLeftSide.firstChild);
+      while (TheRightSide.firstChild)
+          TheRightSide.removeChild(TheRightSide.firstChild);
+      theBody.onclick = null;
+           reset();
+      }
+    }
+       function reset(){
+    window.location.reload();
+}
+  </script>
+</html>
